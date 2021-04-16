@@ -22,19 +22,6 @@ vpc:
       us-east-1c:
           id: "subnet-xxxxxxxx"
 nodeGroups:
-  - name: ng-private-rancher
-    labels: { role: rancher-node }
-    instanceType: t2.medium
-    volumeSize: 80
-    volumeType: gp2
-    desiredCapacity: 3
-    privateNetworking: true
-    ssh:
-      publicKeyPath: Your.Key.Pair.Name
-    iam:
-      withAddonPolicies:
-        externalDNS: true
-        certManager: true
   - name: ng-rancher-nodes
     labels: { role: rancher-node }
     instanceType: t2.medium
