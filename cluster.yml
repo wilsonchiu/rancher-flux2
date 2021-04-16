@@ -1,0 +1,56 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: rancher-eks
+  region: us-east-1
+  version: "1.18"
+vpc:
+  id: vpc-xxxxxxxx
+  subnets: 
+    private:
+      us-east-1a:
+          id: "subnet-xxxxxxxx"
+      us-east-1b:
+          id: "subnet-xxxxxxxx"
+      us-east-1c:
+          id: "subnet-xxxxxxxx"
+    public:
+      us-east-1a:
+          id: "subnet-xxxxxxxx"
+      us-east-1b:
+          id: "subnet-xxxxxxxx"
+      us-east-1c:
+          id: "subnet-xxxxxxxx"
+nodeGroups:
+  - name: ng-private-rancher
+    labels: { role: rancher-node }
+    instanceType: t2.medium
+    volumeSize: 80
+    volumeType: gp2
+    desiredCapacity: 3
+    privateNetworking: true
+    ssh:
+      publicKeyPath: Your.Key.Pair.Name
+    iam:
+      withAddonPolicies:
+        externalDNS: true
+        certManager: true
+  - name: ng-rancher-nodes
+    labels: { role: rancher-node }
+    instanceType: t2.medium
+    volumeSize: 80
+    volumeType: gp2
+    desiredCapacity: 3
+    privateNetworking: true
+    ssh:
+      publicKeyPath: Your.Key.Pair.Name
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        - arn:aws:iam::845822056871:policy/s3-backup-etcd # This is a custom policy
+      withAddonPolicies:
+        externalDNS: true
+        certManager: true
+
