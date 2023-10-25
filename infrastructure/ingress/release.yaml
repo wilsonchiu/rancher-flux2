@@ -19,6 +19,6 @@ spec:
       service:
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: rancher.your-domain.com.
+          external-dns.alpha.kubernetes.io/hostname: rancher.clusters.gbrt-onwaterdata.uk.
     replicaCount: 1
 
